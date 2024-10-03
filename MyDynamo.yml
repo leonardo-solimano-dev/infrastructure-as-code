@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion : "2010-09-09"
+AWSTemplateFormatVersion: "2010-09-09"
 
 Parameters:
   DynamoAtributo:
@@ -14,25 +14,24 @@ Resources:
         # Esquema de claves para la tabla y los índices
         # !Ref = Parameters
         - AttributeName: !Ref DynamoAtributo
-        #Nombre del atributo, Obligatorio, Lo obtenemos como parametro
-          AttributeType:  S
+          AttributeType: S
         # S = string
       KeySchema:
-        #
+        # Clave de partición (HASH)
         - AttributeName: !Ref DynamoAtributo
           KeyType: HASH
-
-      # Como nos va a cobrar el recurso
       BillingMode: PAY_PER_REQUEST
-
+      # Facturación por solicitud, sin necesidad de aprovisionar capacidad
       SSESpecification:
-        # Cifra la base de datos
+        # Cifra la base de datos con cifrado en reposo
         SSEEnabled: true
       TableName: !Ref NombreDynamo
-      #Tags:
-        #- Tag
-      #TimeToLiveSpecification:
-        #TimeToLiveSpecification
+      # Nombre de la tabla, obtenido desde los parámetros
+
+    # Especifica qué hacer con la tabla al eliminar el stack
+    DeletionPolicy: Retain
+    # 'Retain' evita que la tabla sea eliminada cuando se destruye el stack
+
 # Exportar Nombres
 Outputs:
   NombreDynamo:
